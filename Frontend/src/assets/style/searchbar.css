@@ -1,0 +1,28 @@
+
+
+.searchbar{
+    background-color: var(--menu__color--secondary);
+    border-radius: 2rem;
+    padding: 0.7rem;
+    width: 100%;
+    /* border: 1px solid lightblue; */
+}
+
+.searchbar__label{
+    display: flex; 
+    flex-flow: row nowrap;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+    /* border: 1px solid blue; */
+
+}
+
+#searchbar__input{
+    background-color: transparent;
+    border: none;
+}
+
+#searchbar__input:focus{
+    outline: none;
+}
