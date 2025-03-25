@@ -47,11 +47,29 @@ const store = async (req, res) => {
 const getAll = async (req, res) => {
     try {
         const response = await Ingredient.find();
-        res.json(response);
+        return res.json(response);
     } catch (error) {
     }
 }
 
+
+const getIngredientByName = async (req,res) => {
+    try {
+        const response = await Ingredient.find();
+        const name = req.params.name.toLowerCase();
+
+        const foundIngredient = response.filter(el => el.name.toLowerCase().split(" ").join("-") === name);
+        if (foundIngredient.length > 0)
+        {
+            return res.json(foundIngredient[0]);
+        }
+        else{
+            return res.json({ message: `couldn't find ${name}`  });
+        }
+    } catch (error) {
+        return res.json({ message: `${error}`  });
+    }   
+}
 
 const deleteAll = async (req, res) => {
     try {
@@ -63,4 +81,4 @@ const deleteAll = async (req, res) => {
 
 
 
-module.exports = { store, getAll, deleteAll }
+module.exports = { store, getAll, deleteAll, getIngredientByName }

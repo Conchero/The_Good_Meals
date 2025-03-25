@@ -5,7 +5,7 @@ import viteLogo from '/vite.svg'
 import Header from './assets/scripts/Header'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import Homepage from './assets/scripts/Homepage'
-
+import RecipePage from './assets/scripts/RecipePage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,10 +13,10 @@ function App() {
   return (
     <BrowserRouter>
 
-
-    <Routes>
-      <Route path="/" Component={Homepage}/>
-    </Routes>
+      <Routes>
+        <Route path="/" Component={Homepage} />
+        <Route path="/:name" Component={RecipePage} />
+      </Routes>
     </ BrowserRouter>
   )
 }

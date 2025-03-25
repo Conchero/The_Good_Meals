@@ -7,9 +7,9 @@ const categoryRoutes = require("./routes/category.js");
 const ingredientsRoutes = require("./routes/ingredient.js");
 const areasRoutes = require("./routes/area.js");
 const recipesRoutes = require("./routes/recipe.js");
-const {migrateCategory, migrateIngredientsWithPicture,migrateArea,migrateRandomRecipe} = require("./mealAPIMigrator/mealAPIMigrator.js");
+const { migrateCategory, migrateIngredientsWithPicture, migrateArea, migrateRandomRecipe } = require("./mealAPIMigrator/mealAPIMigrator.js");
 
-app.get("/", (req, res) => { res.send("this  is home")});
+app.get("/", (req, res) => { res.send("this  is home") });
 
 mongoose.connect(`mongodb+srv://vlixdivers:A4wBxUE8KVXd1tXj@restaurantapplication.tsghp.mongodb.net/?retryWrites=true&w=majority&appName=RestaurantApplication`).then(() => {
     console.log("Base de donnée connectée")
@@ -17,10 +17,7 @@ mongoose.connect(`mongodb+srv://vlixdivers:A4wBxUE8KVXd1tXj@restaurantapplicatio
 
 app.use(express.static('public'));
 app.use(cookieParser());
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

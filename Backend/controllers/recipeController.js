@@ -88,6 +88,28 @@ const getRandomRecipe = async (req, res) => {
     }
 }
 
+const getSelectionOfTheDay = async (req, res) => {
+    try {
+        const response = await Recipe.find();
+        const nbMeal = 4;
+        const mealsRandomNumber = [];
+
+        while (mealsRandomNumber.length < nbMeal) {
+            const randomNumber = Math.floor(Math.random() * response.length);
+            if (!mealsRandomNumber.includes(randomNumber)) {
+                mealsRandomNumber.push(randomNumber);
+            }
+        }
+        const selectedRecipes = [];
+        mealsRandomNumber.forEach(number => selectedRecipes.push(response[number]));
+
+        return res.json(selectedRecipes);
+
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
 const getRecipe = async (req, res) => {
     try {
         const response = await Recipe.find();
@@ -117,10 +139,10 @@ const getRecipe = async (req, res) => {
                 }
             })
 
-        } 
-        
+        }
+
         if (foundRecipe.length <= 0) {
-            return res.status(404);
+            return res.status(404).json({ status: 404, message: `Couldn't find any linked recipe` });
         }
 
 
@@ -142,4 +164,4 @@ const deleteAll = async (req, res) => {
 
 
 
-module.exports = { store, getAll, getRandomRecipe, getRecipe, deleteAll }
+module.exports = { store, getAll, getRandomRecipe, getSelectionOfTheDay, getRecipe, deleteAll }

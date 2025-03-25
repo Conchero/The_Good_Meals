@@ -10,6 +10,10 @@ h1{
 
 
 header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 7.5rem;
     display: flex;
     flex-flow: row nowrap;
     background-color: var(--menu__color);

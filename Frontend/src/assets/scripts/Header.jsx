@@ -2,15 +2,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "./SearchBar";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-const Header = (props) => {
+import { useNavigate } from "react-router";
+const Header = ({ canSearch = true, _dataToSearch = [], _searchFunction = undefined }) => {
 
-    console.log(props.canSearch);
+    const navigate = useNavigate();
+
+    const onMenuClick = (e) => {
+        const menuObj = document.getElementById("menu");
+        menuObj.classList.toggle("slide")
+        console.log(menuObj);
+    }
+
     return (
         <header>
-            <FontAwesomeIcon icon={faBars} className="fake-button" />
+            <FontAwesomeIcon icon={faBars} className="fake-button" onClick={onMenuClick} />
             <div className="header__input">
-                <h1 className={`fake-button ${props.canSearch ? "" : "font-size__big"}`}>The Good Meals</h1>
-                <SearchBar canSearch={props.canSearch} />
+                <h1 className={`header-title fake-button ${canSearch ? "" : "font-size__big"}`} onClick={(e) => navigate("/")}>The Good Meals</h1>
+                <SearchBar canSearch={canSearch} _searchFunction={_searchFunction} />
             </div>
             <FontAwesomeIcon icon={faHeart} className="fake-button" />
         </header>)

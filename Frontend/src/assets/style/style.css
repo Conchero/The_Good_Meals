@@ -1,19 +1,73 @@
 @import url("./reset.css");
 @import url("./header.css");
-@import url(./variables.css);
+@import url("./variables.css");
+@import url("./recipePage.css");
+@import url("./menu.css");
+@import url("./errorPage.css");
 @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
 
-*, FontAwesomeIcons{
+*,
+FontAwesomeIcons {
     color: var(--text__color);
     font-family: "Irish Grover", system-ui;
 }
 
 
-.fake-button:hover{
+.fake-button:hover {
     cursor: pointer;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
+.recipe_container {
+    display: flex;
+    flex-flow: column;
+    gap: 2rem;
+    min-height: 100vh;
+    padding: 2rem;
+    margin-top: 8rem;
+}
+
+.recipe__instruction--title {
+    margin-bottom: 1.5rem;
+    text-decoration: underline;
+}
+
+.recipe__instruction--line {
+    font-weight: lighter;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.recipe__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 1rem;
+    align-items: center;
+    border-radius: 2rem;
+    padding-inline: 2rem;
+}
+
+.recipe__card h2 {
+    color: var(--text__color--secondary) !important;
+    text-align: center;
+}
+
+.recipe__card:hover {
+    cursor: pointer;
+}
+
+.tag {
+    border: 0.3rem solid var(--text__color--secondary);
+    padding-block: 0.5rem;
+    padding-inline: 2rem;
+    border-radius: 5rem;
+}
+
+.tag h3 {
+    color: var(--text__color--secondary);
+    font-size: 1.3rem;
+}
