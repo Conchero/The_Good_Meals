@@ -4,10 +4,19 @@
 @import url("./recipePage.css");
 @import url("./menu.css");
 @import url("./errorPage.css");
+@import url("./footer.css");
+@import url("./newRecipePage.css");
 @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
 
-*,
-FontAwesomeIcons {
+
+
+.icons,
+h1,
+h2,
+h3,
+h4,
+label,
+input {
     color: var(--text__color);
     font-family: "Irish Grover", system-ui;
 }
@@ -27,8 +36,22 @@ FontAwesomeIcons {
     gap: 2rem;
     min-height: 100vh;
     padding: 2rem;
+    padding-block: 2rem 5rem;
     margin-top: 8rem;
+    align-items: center;
 }
+
+.recipe_container--message {
+    font-size: 3rem;
+    justify-self: center;
+    align-self: center;
+
+    @media screen and (width < 400px) {
+        font-size: 2rem;
+    }
+}
+
+
 
 .recipe__instruction--title {
     margin-bottom: 1.5rem;
@@ -41,7 +64,14 @@ FontAwesomeIcons {
     font-size: 2rem;
 }
 
+
+.recipe__card--holder {
+    position: relative;
+    margin-inline: 8rem;
+}
+
 .recipe__card {
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -49,11 +79,19 @@ FontAwesomeIcons {
     align-items: center;
     border-radius: 2rem;
     padding-inline: 2rem;
+    max-width: 30rem;
+
+
+
 }
 
 .recipe__card h2 {
     color: var(--text__color--secondary) !important;
     text-align: center;
+
+    @media screen and (width < 400px) {
+        font-size: 2rem;
+    }
 }
 
 .recipe__card:hover {
@@ -65,9 +103,53 @@ FontAwesomeIcons {
     padding-block: 0.5rem;
     padding-inline: 2rem;
     border-radius: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .tag h3 {
     color: var(--text__color--secondary);
     font-size: 1.3rem;
+}
+
+
+.no-mouse-event {
+    pointer-events: none;
+}
+
+.recipe__img {
+    border-radius: 2rem;
+    box-shadow: 0rem 0rem 1.5rem var(--text__color);
+}
+
+
+.recipe__title {
+    text-decoration: underline;
+}
+
+
+.recipe__card--fav {
+    font-size: 2rem;
+    position: relative;
+    position: absolute;
+    right: -1rem;
+    top: -1rem;
+    background-color: var(--text__color);
+    color: var(--text__color--secondary) !important;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.recipe__card--fav:hover {
+    color: red !important;
+}
+
+.recipe__card--fav.favorite {
+    color: red !important;
 }

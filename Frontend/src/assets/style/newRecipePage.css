@@ -1,0 +1,45 @@
+.new-recipe__input-div{
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+}
+
+
+.add-div{
+    justify-self: center;
+    align-self: center;
+    color: var(--text__color)
+
+}
+
+
+.recipe__input,.recipe-select{
+    background-color: var(--menu__color--secondary);
+    border-radius:  2rem;
+}
+
+.recipe-select{
+    text-align: center;
+}
+
+
+.no-picture-text{
+    justify-self: center;
+    align-self: center;
+    font-weight: 300;
+    font-size: 2rem;
+}
+
+.newrecipe__image{
+    justify-self: center;
+    align-self: center;
+}
+
+.form-button{
+    margin-top: 2rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--menu__color);
+    padding: 1.5rem;
+    border-radius: 2rem;
+}

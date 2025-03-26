@@ -1,9 +1,15 @@
 import { useNavigate } from "react-router";
 import Tag from "./Tag";
+import FavoriteButton from "./FavoriteButton";
+import { createContext, useEffect, useState } from "react";
 
-const RecipeCard = ({ title, imgURL, area, category }) => {
+
+
+const RecipeCard = ({ title, imgURL, area, category, recipePageDynamicRenderHandler = undefined }) => {
 
     const navigate = useNavigate();
+
+
 
 
     const articleStyle = {
@@ -19,14 +25,24 @@ const RecipeCard = ({ title, imgURL, area, category }) => {
         navigate(`/${title.toLowerCase().split(" ").join("-")}`)
     }
 
+
+
+
+
     return (
-        <article className="recipe__card" style={articleStyle} onClick={goToLinkedPage}>
-            <div className="recipe__card--main-info">
-                <h2>{title}</h2>
-                <div className={`recipe__card--main-info-flag ${area}`}></div>
+        <>
+            <div className="recipe__card--holder">
+                    <FavoriteButton cardTitle={title} recipePageDynamicRenderHandler={recipePageDynamicRenderHandler} />
+                <article className="recipe__card recipe__img" style={articleStyle} onClick={goToLinkedPage} >
+                    <div className="recipe__card--main-info no-mouse-event">
+                        <h2 className="no-mouse-event">{title}</h2>
+                        <div className={`recipe__card--main-info-flag ${area} no-mouse-event`}></div>
+                    </div>
+                    <Tag name={category} inMenu={false} />
+                </article>
             </div>
-                <Tag name={category} inMenu={false} />
-        </article>)
+        </>
+    )
 }
 
 export default RecipeCard;

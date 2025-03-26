@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import APIManager from "./APIManager";
 import IngredientCard from "./IngredientCard";
 import Header from "./Header";
+import Menu from "./Menu";
 
 const RecipePage = () => {
     const { name } = useParams();
@@ -26,15 +27,15 @@ const RecipePage = () => {
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             aspectRatio: 1 / 1,
-            minWidth: "70%",
         }
 
         return (
             <>
                 <Header canSearch={false} />
+                <Menu />
                 <section className="recipe__info">
                     <h2 className="recipe__title">{recipe.title}</h2>
-                    <div className="recipe__info--image" style={articleStyle}></div>
+                    <div className="recipe__info--image recipe__img" style={articleStyle}></div>
                     <div className="recipe__info--main">
                         <h3 className="recipe__ingredients--title">Ingredients :</h3>
                         <div className="recipe__info--ingredients">
@@ -46,7 +47,7 @@ const RecipePage = () => {
                     <h3 className="recipe__instruction--title">Instructions: </h3>
                     {recipe.instructions.map((instruction, i) => {
                         if (instruction != `\r`) {
-                            return <h4 className="recipe__instruction--line">{`${i}/ ${instruction}`}</h4>
+                            return <h4 key={i} className="recipe__instruction--line">{`${i}/ ${instruction}`}</h4>
                         }
                     })}
                 </div>
@@ -57,6 +58,7 @@ const RecipePage = () => {
         return (
             <>
                 <Header canSearch={false} />
+                <Menu />
                 <h2>Loading...</h2>
             </>
         )

@@ -4,4 +4,7 @@
     --text__color: #472C1B;
     --text__color--secondary: #F5FDD6;
     --input__border--radius: 2rem;
+
+    --menu__screen-space--standard: 30%;
+    --menu__screen-space--mobile: 100%;
 }

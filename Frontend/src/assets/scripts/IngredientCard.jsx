@@ -23,12 +23,11 @@ const IngredientCard = ({portion, name}) => {
      return (
         <div className="ingredient__card">
             <div className="ingredient__card--img">
-            <img src={img.image} alt={img.name} />
-            </div>
-            <div className="ingredient__card--portion-div">
                 <h3 className="ingredient__card--portion">{portion}</h3>
             </div>
+            <div className="ingredient__card--portion-div">
             <h3 className="ingredient__card--name">{name}</h3>
+            </div>
         </div>
      )
     }

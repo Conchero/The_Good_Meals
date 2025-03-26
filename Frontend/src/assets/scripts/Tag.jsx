@@ -1,8 +1,8 @@
 const Tag = ({name, inMenu, multipleChoice = false, handleClick = undefined}) => {
     
     return (
-        <div className={inMenu ? `tag tag-menu` : `tag`} onClick={handleClick !== undefined ? handleClick : () => {}}>
-            <h3>{name}</h3>
+        <div className={inMenu ? `tag tag-menu ${name}` : `tag no-mouse-event`} onClick={handleClick !== undefined ? handleClick : () => {}}>
+            <h3 className="no-mouse-event">{name}</h3>
         </div>)
 
 }

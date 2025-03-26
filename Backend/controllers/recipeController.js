@@ -1,12 +1,15 @@
 const { model } = require("mongoose");
-const Recipe = require("../models/Recipe.js")
+const Recipe = require("../models/Recipe.js");
+const { response } = require("express");
 
 
 
 const store = async (req, res) => {
-    const imageFile = req.body.file;
+    
+    const imageFile = req.file;
+    console.log(imageFile);
+    const { title } = req.body;
     try {
-        const { title } = req.body;
         const alreadyExist = await Recipe.findOne({ title });
         if (!alreadyExist) {
             const recipe = await Recipe.create({
@@ -14,12 +17,12 @@ const store = async (req, res) => {
                 image: imageFile !== undefined ? req.file.filename : req.body.image,
             });
 
-            console.log(`Recipe put in database`, recipe.ingredients);
-            return res.json({ message: req.body });
+            console.log(`Recipe put in database`, recipe);
+            //return res.json({ message: req.body });
         }
         else {
             console.log(`${title} already exist`);
-            return res.json({ message: `${tile} already exist` });
+            return res.json({ message: `${title} already exist` });
         }
     } catch (error) {
         console.log(error);
@@ -68,7 +71,7 @@ const getAll = async (req, res) => {
         }
 
         if (filteredRecipe.length <= 0) {
-            res.status(404);
+            return res.status(404).json({ status: 404, message: `Couldn't find any linked recipe` });
         }
 
         res.json(filteredRecipe);
@@ -155,13 +158,28 @@ const getRecipe = async (req, res) => {
 
 const deleteAll = async (req, res) => {
     try {
-        response = await Recipe.deleteMany();
+        const response = await Recipe.deleteMany();
         res.json(response)
     } catch (error) {
         res.status(500).json(error);
     }
 }
 
+const deleteByID = async (req, res) => {
+    try {
+        const {id} = req.params
+        const response = await Recipe.findByIdAndDelete(id);
+        if (response)
+        {
+                 return res.status(203).json({message : `${response} has been deleted`})
+        }
+        return res.json({message : 'Recipe not found'})
+
+    } catch (error) {
+        res.status(500).json({message: error});
+    }
+}
 
 
-module.exports = { store, getAll, getRandomRecipe, getSelectionOfTheDay, getRecipe, deleteAll }
+
+module.exports = { store, getAll, getRandomRecipe, getSelectionOfTheDay, getRecipe, deleteAll,deleteByID }
