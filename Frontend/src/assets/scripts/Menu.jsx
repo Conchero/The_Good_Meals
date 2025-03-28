@@ -41,15 +41,6 @@ const Menu = ({ handleCategoryTagClick = undefined, handleAreaTagClick = undefin
         </div>
 
 
-        {/* <div className="menu__ingredient--div">
-            <h2>Ingredients</h2>
-                <SearchBar className="ingredient__searchBar" />
-            <div className="menu__ingredient--container">
-                {ingdredients.map((el, i) => <Tag key={el.name + i} name={el.name} inMenu={true} handleClick={handleCategoryTagClick !== undefined ? handleCategoryTagClick : () => { }} />)}
-            </div>
-        </div> */}
-
-
     </aside>)
 
 

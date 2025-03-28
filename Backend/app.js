@@ -28,14 +28,3 @@ app.use("/areas", areasRoutes);
 app.use("/recipes", recipesRoutes);
 
 app.listen(3000);
-
-
-// migrateArea();
-// migrateIngredientsWithPicture();
-// migrateCategory();
-// migrateRandomRecipe();
-
-// for (let i = 0; i<30;i++)
-// {
-//     migrateRandomRecipe();
-// }

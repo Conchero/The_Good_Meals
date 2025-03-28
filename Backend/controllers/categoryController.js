@@ -12,7 +12,6 @@ const store = async (req, res) => {
                 return res.json(category);
             }
             else {
-                console.log(`${name} already exist`);
                 return res.json({ message: `${name} already exist` });
             }
         } catch (error) {
@@ -25,7 +24,6 @@ const store = async (req, res) => {
             const name = element.name;
             alreadyExist = await Category.findOne({ name });
             if (alreadyExist) {
-                console.log(`${name} already exist`);
                 return res.json({ message: `${name} already exist` });
             }
         };
@@ -62,5 +60,3 @@ module.exports = { store, getAll, deleteAll }
 
 
 
-//separate query url
-//let query = require('url').parse(req.url,true).query;

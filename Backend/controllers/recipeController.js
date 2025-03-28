@@ -18,7 +18,6 @@ const store = async (req, res) => {
             });
 
             console.log(`Recipe put in database`, recipe);
-            //return res.json({ message: req.body });
         }
         else {
             console.log(`${title} already exist`);

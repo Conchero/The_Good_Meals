@@ -165,7 +165,6 @@ const NewRecipePage = () => {
         console.log(verifyModelRecipeOnSubmit(newRecipe));
 
         if (!verifyModelRecipeOnSubmit(newRecipe).includes(false)) {
-            console.log("yoy yo yo ");
 
             const response = await fetch('http://localhost:3000/recipes', {
                 method: 'POST',

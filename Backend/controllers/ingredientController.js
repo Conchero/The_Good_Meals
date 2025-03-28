@@ -28,7 +28,6 @@ const store = async (req, res) => {
                  alreadyExist = await Ingredient.findOne({ name });
                  if(alreadyExist)
                  {
-                    console.log(`${name} already exist`);
                    return res.json({ message: `${name} already exist` });
                  }
         };
