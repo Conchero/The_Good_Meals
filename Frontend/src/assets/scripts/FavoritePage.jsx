@@ -44,9 +44,9 @@ const FavoritePage = () => {
         return (<>
             <Header canSearch={false} />
             <Menu />
+                <h2 className="recipe_container--message">Your Favorite Recipes</h2>
             <section className="recipe_container">
-                <h2>Your Favorite Recipes</h2>
-                {favoriteRecipesArray.map(recipe => <RecipeCard recipePageDynamicRenderHandler={handleFavoriteRecipes} title={recipe.title} imgURL={recipe.image} area={recipe.area} category={recipe.category} />)}
+                {favoriteRecipesArray.map(recipe => <RecipeCard key={recipe.title} recipePageDynamicRenderHandler={handleFavoriteRecipes} title={recipe.title} imgURL={recipe.image} area={recipe.area} category={recipe.category} />)}
             </section>
 
         </>)
@@ -55,10 +55,7 @@ const FavoritePage = () => {
         return (<>
             <Header canSearch={false} />
             <Menu />
-            <section className="recipe_container">
-
-                <h2>No favorite recipes yet</h2>
-            </section>
+            <h2  className="recipe_container--message">No favorite recipes yet</h2>
         </>)
     }
 

@@ -18,27 +18,6 @@ const Homepage = () => {
     }, [])
 
 
-    useEffect(() => {
-        checkRecipeFavorite(recipesArray);
-    }, [recipesArray])
-
-
-    const checkRecipeFavorite = (arr) => {
-        arr.forEach(recipe => {
-            if (JSON.parse(localStorage.getItem("favoriteRecipes"))) {
-                const favoriteArray = JSON.parse(localStorage.getItem("favoriteRecipes"));
-                favoriteArray.forEach(name => {
-                    if (name === recipe.title.toLowerCase().split(" ").join("-")) {
-                        recipe.favorite = true;
-                    }
-                    else {
-                        recipe.favorite = false;
-                    }
-                })
-            }
-        });
-    }
-
     const fetchDaySelectionFromAPI = async () => {
         const response = await APIManager.fetchDaySelectionRecipes();
         setRecipes(response);
@@ -136,11 +115,11 @@ const Homepage = () => {
         return (
             <>
                 <Header canSearch={true} _dataToSearch={recipesArray} _searchFunction={searchRecipe} />
+                <h2 className="recipe_container--message">{message}</h2>
+                <Menu handleCategoryTagClick={handleCategoryTagClick} handleAreaTagClick={handleAreaTagClick} />
                 <section className="recipe_container">
-                    <h2 className="recipe_container--message">{message}</h2>
-                    <Menu handleCategoryTagClick={handleCategoryTagClick} handleAreaTagClick={handleAreaTagClick} />
                     {recipesArray.map(recipe => {
-                        return <RecipeCard key={recipe.title} favorite={recipe.favorite} title={recipe.title} imgURL={recipe.image} area={recipe.area} category={recipe.category} />
+                        return <RecipeCard key={recipe.title} title={recipe.title} imgURL={recipe.image} area={recipe.area} category={recipe.category} />
                     })}
                 </section>
             </>)

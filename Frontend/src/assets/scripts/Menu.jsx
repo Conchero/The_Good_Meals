@@ -11,8 +11,6 @@ const Menu = ({ handleCategoryTagClick = undefined, handleAreaTagClick = undefin
     useEffect(() => {
         fetchCategories();
         fetchArea();
-
-        //fetchIngredient();
     }, []);
 
     const fetchCategories = async () => {

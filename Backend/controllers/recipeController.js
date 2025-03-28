@@ -5,7 +5,7 @@ const { response } = require("express");
 
 
 const store = async (req, res) => {
-    
+
     const imageFile = req.file;
     console.log(imageFile);
     const { title } = req.body;
@@ -116,40 +116,50 @@ const getSelectionOfTheDay = async (req, res) => {
 const getRecipe = async (req, res) => {
     try {
         const response = await Recipe.find();
-        const name = req.params.name.toLowerCase().split("-");
+        const name = req.params.name.toLowerCase().split("-").join(" ");
+        let closeFoundRecipe = [];
         let foundRecipe = [];
 
-        foundRecipe = response.filter(recipe => recipe.title.toLowerCase() === name.join(" "));
 
-        if (foundRecipe.length === 0) {
-            response.forEach(recipe => {
-                const separatedTitle = recipe.title.toLowerCase().split(" ");
-                let correspondToSearch = false;
-                separatedTitle.forEach(title => {
-                    name.forEach(word => {
-                        if (title.includes(word)) {
-                            correspondToSearch = true;
-                            return;
-                        }
-                    })
-                    if (correspondToSearch) {
-                        return;
+        //compare the search input wih existing recipe title
+        //then make a percentage of corresponding letter 
+        response.forEach(recipe => {
+            const lowerRecipeName = recipe.title.toLowerCase();
+            const searchLetters = []
+            for (let i = 0; i < lowerRecipeName.length; i++) {
+                if (i < name.length) {
+                    if (lowerRecipeName[i] === name[i]) {
+                        searchLetters.push(true);
                     }
-                })
-
-                if (correspondToSearch) {
-                    foundRecipe.push(recipe);
+                    else {
+                        searchLetters.push(false);
+                    }
                 }
-            })
+            }
 
-        }
+            const lettersInCommon = searchLetters.filter(letter => letter === true);
+            const lettersInCommonPercent = (lettersInCommon.length / searchLetters.length) * 100;
 
-        if (foundRecipe.length <= 0) {
+            if (lettersInCommonPercent >= 100) {
+                foundRecipe.push(recipe);
+            }
+            else if (lettersInCommonPercent >= 20) {
+                closeFoundRecipe.push(recipe);
+            }
+
+        });
+
+
+        if (foundRecipe.length <= 0 && closeFoundRecipe.length <= 0) {
             return res.status(404).json({ status: 404, message: `Couldn't find any linked recipe` });
         }
 
-
-        res.json(foundRecipe);
+        if (foundRecipe.length > 0) {
+            res.json(foundRecipe);
+        }
+        else if (closeFoundRecipe.length > 0) {
+            res.json(closeFoundRecipe);
+        }
     }
     catch (error) {
         res.status(500).json(error);
@@ -167,19 +177,18 @@ const deleteAll = async (req, res) => {
 
 const deleteByID = async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         const response = await Recipe.findByIdAndDelete(id);
-        if (response)
-        {
-                 return res.status(203).json({message : `${response} has been deleted`})
+        if (response) {
+            return res.status(203).json({ message: `${response} has been deleted` })
         }
-        return res.json({message : 'Recipe not found'})
+        return res.json({ message: 'Recipe not found' })
 
     } catch (error) {
-        res.status(500).json({message: error});
+        res.status(500).json({ message: error });
     }
 }
 
 
 
-module.exports = { store, getAll, getRandomRecipe, getSelectionOfTheDay, getRecipe, deleteAll,deleteByID }
+module.exports = { store, getAll, getRandomRecipe, getSelectionOfTheDay, getRecipe, deleteAll, deleteByID }

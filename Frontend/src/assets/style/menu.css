@@ -2,7 +2,7 @@
 
 .menu{
     position: fixed;
-    margin-top: -2.2rem;
+    top: 7.5rem;    
     height: calc(100vh - 7.5rem) ;
     width: var(--menu__screen-space--standard);
     background-color: var(--text__color--secondary);

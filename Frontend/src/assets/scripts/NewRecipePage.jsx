@@ -116,7 +116,7 @@ const NewRecipePage = () => {
         // setRecipePicture({ src: URL.createObjectURL(e.target.files[0]), alt: e.target.files[0].name })
         setRecipePictureFile(e.target.value);
         setRecipePicture({ src: e.target.value, alt: "Placeholder Feature" })
-    
+
     }
 
 
@@ -143,6 +143,7 @@ const NewRecipePage = () => {
 
         })
 
+
         const newRecipe = {
             title: recipeTitle,
 
@@ -159,29 +160,68 @@ const NewRecipePage = () => {
             instructions: recipeInstructions,
         }
 
-        console.log(newRecipe.image);
 
-        const response = await fetch('http://localhost:3000/recipes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newRecipe)
-          });
 
+        console.log(verifyModelRecipeOnSubmit(newRecipe));
+
+        if (!verifyModelRecipeOnSubmit(newRecipe).includes(false)) {
+            console.log("yoy yo yo ");
+
+            const response = await fetch('http://localhost:3000/recipes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newRecipe)
+            });
+        }
+        else {
+            for (let i = 0; i< verifyModelRecipeOnSubmit(newRecipe).length;i++)
+            {
+                const errorText = document.querySelector(`.error-input-${i+1}`);
+                console.log(errorText);
+                if (verifyModelRecipeOnSubmit(newRecipe)[i] ){
+                    if (!errorText.classList.contains("hidden"))
+                         errorText.classList.add("hidden");
+                }
+                else{
+                    errorText.classList.remove("hidden");
+                }
+            }
+        }
+
+    }
+
+    const minTitleLenght = 3;
+
+    const verifyModelRecipeOnSubmit = (_newRecipeModel) => {
+        const modelChecker = [];
+
+
+        modelChecker.push(_newRecipeModel.title.length >= minTitleLenght);
+        modelChecker.push(!_newRecipeModel.ingredients.name.includes("") && !_newRecipeModel.ingredients.portion.includes(""));
+        modelChecker.push(!_newRecipeModel.instructions.includes("") )
+        modelChecker.push(_newRecipeModel.category !== "");
+        modelChecker.push(_newRecipeModel.area !== "");
+        modelChecker.push(_newRecipeModel.image !== "" && _newRecipeModel.image !== undefined);
+        
+        console.log(!_newRecipeModel.ingredients.name.includes("") && !_newRecipeModel.ingredients.portion.includes(""))
+
+        return modelChecker;
     }
 
     return (
         <>
             <Header canSearch={false} />
-            <section className="recipe_container">
-                <Menu />
+            <Menu />
+            <section className="recipe_container under_header">
                 <form>
                     <div className="new-recipe__input-div recipe__title--div">
-                        <label htmlFor="recipe-input-title">Title: </label>
+                        <label htmlFor="recipe-label recipe-input-title">Title: </label>
                         <input id="recipe-input-title" className="recipe__input title" type="text" required onChange={(e) => setRecipeTitle(e.target.value)}></input>
+                        <p className="error-input-1 error-input-new-recipe hidden">Please enter a title of minimum {minTitleLenght} characters</p>
                     </div>
 
                     <div className="new-recipe__input-div recipe__ingredient--div">
-                        <label htmlFor="recipe-input-ingredient">Ingredients</label>
+                        <label htmlFor="recipe-label recipe-input-ingredient">Ingredients</label>
                         {ingredientArray.map((el, i) => {
 
                             return (<div className="ingredients-input-div">
@@ -192,37 +232,42 @@ const NewRecipePage = () => {
                         <div className="add-div fake-button" onClick={addIngredientsInput}>
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
+                        <p className="error-input-2 error-input-new-recipe hidden">Please make sure every ingredients and portion are filled</p>
                     </div>
 
                     <div className="new-recipe__input-div recipe__instruction--div">
-                        <label htmlFor="recipe-input-instruction">Instructions: </label>
+                        <label htmlFor="recipe-label recipe-input-instruction">Instructions: </label>
                         {instructionArray.map((el, i) => <input key={el.id + i} className={el.className} type={el.type} id={el.id} defaultValue={el.instruction} required></input>)}
                         <div className="add-div fake-button" onClick={addInstructionInput}>
                             <FontAwesomeIcon icon={faPlus} />
                         </div>
+                        <p className="error-input-3 error-input-new-recipe hidden">Please make sure every instructions are filled</p>
                     </div>
 
                     <div className="new-recipe__input-div recipe__category">
-                        <label htmlFor="recipe-select-category">Category :</label>
+                        <label htmlFor="recipe-label recipe-select-category">Category :</label>
                         <select className="recipe-select" id="recipe-select-category" onChange={(e) => setRecipeCategory(e.target.value)} required>
                             <option value="">---Please Select A Category---</option>
                             {categoriesArray.map((category, i) => <option value={category.name}>{category.name}</option>)}
                         </select>
+                        <p className="error-input-4 error-input-new-recipe hidden">Please Select a category</p>
                     </div>
 
                     <div className="new-recipe__input-div recipe__area">
-                        <label htmlFor="recipe-select-area">Area :</label>
-                        <select className="recipe-select" id="recipe-select-area" onChange={(e) => setRecipeArea(e.target.value) } required>
+                        <label htmlFor="recipe-label recipe-select-area">Area :</label>
+                        <select className="recipe-select" id="recipe-select-area" onChange={(e) => setRecipeArea(e.target.value)} required>
                             <option value="">---Please Select An Area---</option>
                             {areaArray.map((area, i) => <option value={area.name}>{area.name}</option>)}
                         </select>
+                        <p className="error-input-5 error-input-new-recipe hidden">Please Select an area</p>
                     </div>
 
                     <div className="new-recipe__input-div recipe__image">
-                        <label htmlFor="recipe-image-file">Recipe Picture</label>
+                        <label htmlFor="recipe-label recipe-image-file">Recipe Picture</label>
                         {/* <input type="file" onChange={pictureUploadHandler} accept=".jpg, .jpeg, .png" required></input> */}
-                        <input className="recipe__input" type="text" onChange={pictureUploadHandler}  required></input>
-                        {recipePicture ? <img className="newrecipe__image" src={recipePicture.src} alt={recipePicture.alt} /> : <h4 className="no-picture-text">No Picture Uploaded yet</h4>}
+                        <input className="recipe__input" type="text" onChange={pictureUploadHandler} required></input>
+                        {recipePicture ? <img className="newrecipe__image recipe__img" src={recipePicture.src} alt={recipePicture.alt} /> : <h4 className="no-picture-text">No Picture Uploaded yet</h4>}
+                        <p className="error-input-6 error-input-new-recipe hidden">Please select a picture</p>
                     </div>
 
 

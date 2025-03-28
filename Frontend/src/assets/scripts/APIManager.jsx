@@ -18,7 +18,6 @@ class APIManager {
     }
 
     static fetchRecipe = async (name) => {
-        console.log(`${this.apiRecipesURL}/${name}`);
         const response = await fetch(`${this.apiRecipesURL}/${name}`);
         const data = await response.json();
         return data;

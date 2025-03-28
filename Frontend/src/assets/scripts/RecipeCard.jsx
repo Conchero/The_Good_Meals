@@ -9,9 +9,6 @@ const RecipeCard = ({ title, imgURL, area, category, recipePageDynamicRenderHand
 
     const navigate = useNavigate();
 
-
-
-
     const articleStyle = {
         backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(0,0,0,1.5)), url(${imgURL})`,
         backgroundSize: "cover",
@@ -21,13 +18,8 @@ const RecipeCard = ({ title, imgURL, area, category, recipePageDynamicRenderHand
     }
 
     const goToLinkedPage = (e) => {
-        console.log(title.toLowerCase().split(" ").join("-"));
         navigate(`/${title.toLowerCase().split(" ").join("-")}`)
     }
-
-
-
-
 
     return (
         <>
