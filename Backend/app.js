@@ -12,6 +12,7 @@ const { migrateCategory, migrateIngredientsWithPicture, migrateArea, migrateRand
 app.get("/", (req, res) => { res.send("this  is home") });
 
 mongoose.connect(`mongodb+srv://vlixdivers:A4wBxUE8KVXd1tXj@restaurantapplication.tsghp.mongodb.net/?retryWrites=true&w=majority&appName=RestaurantApplication`).then(() => {
+   
     console.log("Base de donnée connectée")
 });
 

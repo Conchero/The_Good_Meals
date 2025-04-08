@@ -1,32 +1,35 @@
 const { model } = require("mongoose");
 const Recipe = require("../models/Recipe.js");
 const { response } = require("express");
-
+const upload = require("../middleware/multer.js")
 
 
 const store = async (req, res) => {
+    let imageFile = undefined;
+    upload.single("new-recipe__picture")(req, res, (err) => {
+        imageFile = req.file;
+        console.log(req.body);
+        console.log(imageFile);
+    })
+    // const { title } = req.body;
+    // try {
+    //     const alreadyExist = await Recipe.findOne({ title });
+    //     if (!alreadyExist) {
+    //         const recipe = await Recipe.create({
+    //             ...req.body,
+    //             image: imageFile !== undefined ? req.file.filename : req.body.image,
+    //         });
 
-    const imageFile = req.file;
-    console.log(imageFile);
-    const { title } = req.body;
-    try {
-        const alreadyExist = await Recipe.findOne({ title });
-        if (!alreadyExist) {
-            const recipe = await Recipe.create({
-                ...req.body,
-                image: imageFile !== undefined ? req.file.filename : req.body.image,
-            });
-
-            console.log(`Recipe put in database`, recipe);
-        }
-        else {
-            console.log(`${title} already exist`);
-            return res.json({ message: `${title} already exist` });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json(error);
-    }
+    //         console.log(`Recipe put in database`, recipe);
+    //     }
+    //     else {
+    //         console.log(`${title} already exist`);
+    //         return res.json({ message: `${title} already exist` });
+    //     }
+    // } catch (error) {
+    //     console.log(error);
+    //     res.status(500).json(error);
+    // }
 }
 
 
