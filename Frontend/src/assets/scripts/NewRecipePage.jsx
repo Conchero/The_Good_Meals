@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import APIManager from "./APIManager"
 
+
+
 const NewRecipePage = () => {
 
     const instructionInputTemplate = {
@@ -40,7 +42,7 @@ const NewRecipePage = () => {
     const [recipeTitle, setRecipeTitle] = useState("");
     const [recipeCategory, setRecipeCategory] = useState("");
     const [recipeArea, setRecipeArea] = useState("");
-    const [recipePictureFile, setRecipePictureFile] = useState();
+    const [recipePictureFile, setRecipePictureFile] = useState(null);
 
     useEffect(() => {
         fetchCategoriesFromAPI();
@@ -111,11 +113,10 @@ const NewRecipePage = () => {
 
 
     const pictureUploadHandler = (e) => {
-        // console.log(e.target.files[0]);
-        // setRecipePictureFile(e.target.files[0]);
-        // setRecipePicture({ src: URL.createObjectURL(e.target.files[0]), alt: e.target.files[0].name })
-        setRecipePictureFile(e.target.value);
-        setRecipePicture({ src: e.target.value, alt: "Placeholder Feature" })
+        setRecipePictureFile(e.target.files[0]);
+        setRecipePicture({ src: URL.createObjectURL(e.target.files[0]), alt: e.target.files[0].name })
+        // setRecipePictureFile(e.target.value);
+        //setRecipePicture({ src: e.target.value, alt: "Placeholder Feature" })
 
     }
 
@@ -160,32 +161,44 @@ const NewRecipePage = () => {
             instructions: recipeInstructions,
         }
 
+        console.log(recipePictureFile)
+        const formData = new FormData();
+        formData.append("title", recipeTitle);
+        formData.append("category", recipeCategory);
+        formData.append("new-recipe__picture", recipePictureFile);
+        formData.append("area", recipeArea);
+        formData.append("ingredients_name", recipeIngredientsName);
+        formData.append("ingredients_portion", recipeIngredientsPortion);
+        formData.append("instruction", recipeInstructions);
+        // const config ={
+        //     headers:{
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // }
 
+        const response = await fetch('http://localhost:3000/recipes', {
+            method: 'POST',
+            body: formData,
+        });
 
-        console.log(verifyModelRecipeOnSubmit(newRecipe));
+        // console.log(verifyModelRecipeOnSubmit(newRecipe));
 
-        if (!verifyModelRecipeOnSubmit(newRecipe).includes(false)) {
-
-            const response = await fetch('http://localhost:3000/recipes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newRecipe)
-            });
-        }
-        else {
-            for (let i = 0; i< verifyModelRecipeOnSubmit(newRecipe).length;i++)
-            {
-                const errorText = document.querySelector(`.error-input-${i+1}`);
-                console.log(errorText);
-                if (verifyModelRecipeOnSubmit(newRecipe)[i] ){
-                    if (!errorText.classList.contains("hidden"))
-                         errorText.classList.add("hidden");
-                }
-                else{
-                    errorText.classList.remove("hidden");
-                }
-            }
-        }
+        // if (!verifyModelRecipeOnSubmit(newRecipe).includes(false)) {
+        // }
+        // else {
+        //     for (let i = 0; i< verifyModelRecipeOnSubmit(newRecipe).length;i++)
+        //     {
+        //         const errorText = document.querySelector(`.error-input-${i+1}`);
+        //         console.log(errorText);
+        //         if (verifyModelRecipeOnSubmit(newRecipe)[i] ){
+        //             if (!errorText.classList.contains("hidden"))
+        //                  errorText.classList.add("hidden");
+        //         }
+        //         else{
+        //             errorText.classList.remove("hidden");
+        //         }
+        //     }
+        // }
 
     }
 
@@ -197,22 +210,25 @@ const NewRecipePage = () => {
 
         modelChecker.push(_newRecipeModel.title.length >= minTitleLenght);
         modelChecker.push(!_newRecipeModel.ingredients.name.includes("") && !_newRecipeModel.ingredients.portion.includes(""));
-        modelChecker.push(!_newRecipeModel.instructions.includes("") )
+        modelChecker.push(!_newRecipeModel.instructions.includes(""))
         modelChecker.push(_newRecipeModel.category !== "");
         modelChecker.push(_newRecipeModel.area !== "");
         modelChecker.push(_newRecipeModel.image !== "" && _newRecipeModel.image !== undefined);
-        
+
         console.log(!_newRecipeModel.ingredients.name.includes("") && !_newRecipeModel.ingredients.portion.includes(""))
 
         return modelChecker;
     }
 
+
+    //console.log(URL.createObjectURL())
     return (
         <>
             <Header canSearch={false} />
             <Menu />
             <section className="recipe_container under_header">
-                <form>
+                {/* <img src="../../../../Backend/public/uploads/" /> */}
+                <form onSubmit={formSubmit} encType="multipart/form-data">
                     <div className="new-recipe__input-div recipe__title--div">
                         <label htmlFor="recipe-label recipe-input-title">Title: </label>
                         <input id="recipe-input-title" className="recipe__input title" type="text" required onChange={(e) => setRecipeTitle(e.target.value)}></input>
@@ -263,14 +279,14 @@ const NewRecipePage = () => {
 
                     <div className="new-recipe__input-div recipe__image">
                         <label htmlFor="recipe-label recipe-image-file">Recipe Picture</label>
-                        {/* <input type="file" onChange={pictureUploadHandler} accept=".jpg, .jpeg, .png" required></input> */}
-                        <input className="recipe__input" type="text" onChange={pictureUploadHandler} required></input>
-                        {recipePicture ? <img className="newrecipe__image recipe__img" src={recipePicture.src} alt={recipePicture.alt} /> : <h4 className="no-picture-text">No Picture Uploaded yet</h4>}
+                        <input type="file" onChange={pictureUploadHandler} accept=".jpg, .jpeg, .png" required></input>
+                        {/* <input className="recipe__input" type="text" onChange={pictureUploadHandler} required></input> */}
+                        {recipePicture ? <img className="newrecipe__image recipe__img" name="new-recipe__picture" src={recipePicture.src} alt={recipePicture.alt} /> : <h4 className="no-picture-text">No Picture Uploaded yet</h4>}
                         <p className="error-input-6 error-input-new-recipe hidden">Please select a picture</p>
                     </div>
 
 
-                    <button className="form-button" type="submit" onClick={formSubmit}>Add new recipe</button>
+                    <button className="form-button" type="submit" >Add new recipe</button>
 
                 </form>
             </section>

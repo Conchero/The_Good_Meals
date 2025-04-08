@@ -169,3 +169,7 @@ input,select {
 .recipe__card--fav.favorite {
     color: red !important;
 }
+
+.under_header{
+    margin-top: 8rem;
+}
