@@ -1,11 +1,11 @@
 const multer = require("multer");
-const GridFsStorage = require('multer-gridfs-storage');
-const crypto = require('crypto');
-const path = require('path');
+// const GridFsStorage = require('multer-gridfs-storage');
+// const crypto = require('crypto');
+ const path = require('path');
 
 
 const storage = multer.diskStorage({
-    destination: "./public/uploads/",
+    destination: "../Frontend/public/RecipeImages/",
     filename: (req, file, cb) => {
         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname))
     }

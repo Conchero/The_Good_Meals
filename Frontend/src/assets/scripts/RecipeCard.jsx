@@ -9,8 +9,10 @@ const RecipeCard = ({ title, imgURL, area, category, recipePageDynamicRenderHand
 
     const navigate = useNavigate();
 
+    const pathToImage = imgURL.includes("https") ? imgURL : `../../../public/RecipeImages/${imgURL}`; 
+
     const articleStyle = {
-        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(0,0,0,1.5)), url(${imgURL})`,
+        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0), rgba(0,0,0,1.5)), url(${pathToImage})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",

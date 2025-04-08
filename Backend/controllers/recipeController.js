@@ -6,30 +6,52 @@ const upload = require("../middleware/multer.js")
 
 const store = async (req, res) => {
     let imageFile = undefined;
-    upload.single("new-recipe__picture")(req, res, (err) => {
+    upload.single("new-recipe__picture")( req, res,async (err) => {
         imageFile = req.file;
-        console.log(req.body);
-        console.log(imageFile);
-    })
-    // const { title } = req.body;
-    // try {
-    //     const alreadyExist = await Recipe.findOne({ title });
-    //     if (!alreadyExist) {
-    //         const recipe = await Recipe.create({
-    //             ...req.body,
-    //             image: imageFile !== undefined ? req.file.filename : req.body.image,
-    //         });
+        const { title, category, area } = req.body;
+        const ingredientNameArray = req.body.ingredients_name.split(",");
+        const ingredientPortionArray = req.body.ingredients_portion.split(",");
+        const instructionArray = req.body.instruction.split(",");
 
-    //         console.log(`Recipe put in database`, recipe);
-    //     }
-    //     else {
-    //         console.log(`${title} already exist`);
-    //         return res.json({ message: `${title} already exist` });
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    //     res.status(500).json(error);
-    // }
+        const newRecipe = {
+            title: title,
+            
+            category: category,
+            
+            image: imageFile.filename,
+            
+            area: area,
+            
+            ingredients: {
+                name: ingredientNameArray,
+                portion: ingredientPortionArray,
+            },
+            instructions: instructionArray,
+        }
+
+        console.log(newRecipe);
+
+        try {
+            const alreadyExist = await Recipe.findOne({ title });
+            if (!alreadyExist) {
+                const recipe = await Recipe.create(newRecipe);
+    
+                console.log(`Recipe put in database`, recipe);
+            }
+            else {
+                console.log(`${title} already exist`);
+                return res.json({ message: `${title} already exist` });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error);
+        }
+
+    })
+
+
+
+    // const { title } = req.body;
 }
 
 

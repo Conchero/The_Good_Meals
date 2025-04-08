@@ -20,9 +20,12 @@ const RecipePage = () => {
     }
 
 
+    
+    
     if (recipe) {
+        const pathToImage = recipe.image.includes("https") ? recipe.image : `../../../public/RecipeImages/${recipe.image}`; 
         const articleStyle = {
-            backgroundImage: `url(${recipe.image})`,
+            backgroundImage: `url(${pathToImage})`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
