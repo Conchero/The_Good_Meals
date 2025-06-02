@@ -8,16 +8,20 @@ const ingredientsRoutes = require("./routes/ingredient.js");
 const areasRoutes = require("./routes/area.js");
 const recipesRoutes = require("./routes/recipe.js");
 const { migrateCategory, migrateIngredientsWithPicture, migrateArea, migrateRandomRecipe } = require("./mealAPIMigrator/mealAPIMigrator.js");
+require('dotenv').config();
 
 
-const PORT = process.env.PORT || 3001;
+
+const PORT = parseInt(process.env.PORT) || 3001;
+
+if (isNaN(PORT)) {
+    console.error("PORT invalide");
+    process.exit(1);
+}
 
 app.get("/", (req, res) => { res.send("this  is home") });
 
-mongoose.connect(process.env.MONGOOSE_URI).then(() => {
-   
-    console.log("Base de donnée connectée")
-});
+mongoose.connect(process.env.MONGOOSE_URI);
 
 app.use(express.static('public'));
 app.use(cookieParser());
@@ -34,6 +38,6 @@ app.use("/recipes", recipesRoutes);
 
 
 
-app.listen(PORT,'0.0.0.0',() => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
