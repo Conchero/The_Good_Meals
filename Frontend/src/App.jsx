@@ -12,11 +12,14 @@ import FavoritePage from './assets/scripts/FavoritePage'
 
 
 
+
 function App() {
   const [count, setCount] = useState(0)
 
+
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/The_Good_Meals">
 
 
       <Routes>

@@ -25,6 +25,8 @@ const Homepage = () => {
     }
 
     const searchRecipe = async (e) => {
+
+
         if (e.target.value.length > 0) {
             const response = await APIManager.fetchRecipe(e.target.value.toLowerCase().split(" ").join("-"));
             if (response.status) {
@@ -37,6 +39,7 @@ const Homepage = () => {
             }
         }
         else {
+                setErrorObject({haveError: false});
             fetchDaySelectionFromAPI();
         }
     }

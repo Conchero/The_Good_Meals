@@ -1,14 +1,16 @@
 
 class APIManager {
-
-    static apiCategoriesURL = "http://localhost:3000/categories";
-    static apiAreasURL = "http://localhost:3000/areas";
-    static apiRecipesURL = "http://localhost:3000/recipes";
-    static apiIngredientsURL = "http://localhost:3000/ingredients";
-
+    static BASEURL =  (import.meta.env.VITE_API_URL || "http://localhost:3000")
+    static apiCategoriesURL =    `${this.BASEURL}/categories`;
+    static apiAreasURL =  `${this.BASEURL}/areas`;
+    static apiRecipesURL =   `${this.BASEURL}/recipes`;
+    static apiIngredientsURL =  `${this.BASEURL}/ingredients`;
+    
     static fetchDaySelectionRecipes = async () => {
         const returnArray = [];
 
+
+        
         const response = await fetch(`${this.apiRecipesURL}/day-selection`);
         const data = await response.json();
         data.forEach(el => {
@@ -80,6 +82,8 @@ class APIManager {
         return data;
     }
 }
+
+
 
 
 export default APIManager;

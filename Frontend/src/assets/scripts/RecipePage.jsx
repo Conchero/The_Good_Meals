@@ -9,7 +9,6 @@ const RecipePage = () => {
     const { name } = useParams();
     const [recipe, setRecipe] = useState();
 
-
     useEffect(() => {
         fetchLinkedRecipe();
     }, []);
@@ -20,10 +19,10 @@ const RecipePage = () => {
     }
 
 
-    
-    
+
+
     if (recipe) {
-        const pathToImage = recipe.image.includes("https") ? recipe.image : `../../../public/RecipeImages/${recipe.image}`; 
+        const pathToImage = recipe.image.includes("https") ? recipe.image : `../../../public/RecipeImages/${recipe.image}`;
         const articleStyle = {
             backgroundImage: `url(${pathToImage})`,
             backgroundSize: "contain",
@@ -48,10 +47,8 @@ const RecipePage = () => {
                 </section>
                 <div className="recipe__instruction">
                     <h3 className="recipe__instruction--title">Instructions: </h3>
-                    {recipe.instructions.map((instruction, i) => {
-                        if (instruction != `\r`) {
-                            return <h4 key={i} className="recipe__instruction--line">{`${i}/ ${instruction}`}</h4>
-                        }
+                    {recipe.instructions.filter(instruction => instruction != `\r` && instruction != "" && !instruction.trim().toLowerCase().replace(/[0-9]/g, '').includes("step")).map((instruction, i) => {
+                        return <h4 key={i} className="recipe__instruction--line">{`${i + 1}/ ${instruction}`}</h4>
                     })}
                 </div>
             </>
