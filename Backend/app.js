@@ -9,9 +9,12 @@ const areasRoutes = require("./routes/area.js");
 const recipesRoutes = require("./routes/recipe.js");
 const { migrateCategory, migrateIngredientsWithPicture, migrateArea, migrateRandomRecipe } = require("./mealAPIMigrator/mealAPIMigrator.js");
 
+
+const PORT = process.env.PORT || 3001;
+
 app.get("/", (req, res) => { res.send("this  is home") });
 
-mongoose.connect(`mongodb+srv://vlixdivers:A4wBxUE8KVXd1tXj@restaurantapplication.tsghp.mongodb.net/?retryWrites=true&w=majority&appName=RestaurantApplication`).then(() => {
+mongoose.connect(process.env.MONGOOSE_URI).then(() => {
    
     console.log("Base de donnée connectée")
 });
@@ -28,4 +31,9 @@ app.use("/ingredients", ingredientsRoutes);
 app.use("/areas", areasRoutes);
 app.use("/recipes", recipesRoutes);
 
-app.listen(3000);
+
+
+
+app.listen(PORT,'0.0.0.0',() => {
+    console.log(`Server running on port ${PORT}`);
+});
