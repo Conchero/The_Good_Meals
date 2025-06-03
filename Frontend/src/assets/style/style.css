@@ -68,6 +68,10 @@ input,select {
 }
 
 
+.loading {
+margin-top: 20%;
+}       
+
 
 .recipe__instruction--title {
     margin-bottom: 1.5rem;

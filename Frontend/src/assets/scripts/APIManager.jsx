@@ -8,9 +8,6 @@ class APIManager {
     
     static fetchDaySelectionRecipes = async () => {
         const returnArray = [];
-
-
-        
         const response = await fetch(`${this.apiRecipesURL}/day-selection`);
         const data = await response.json();
         data.forEach(el => {

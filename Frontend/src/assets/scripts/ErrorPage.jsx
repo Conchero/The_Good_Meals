@@ -6,6 +6,7 @@ const ErrorPage = ({ status, message }) => {
     return (<div className="error__message">
         <FontAwesomeIcon className="error__icon icons" icon={faTriangleExclamation} />
         <h2>{message}</h2>
+        
     </div>)
 }
 

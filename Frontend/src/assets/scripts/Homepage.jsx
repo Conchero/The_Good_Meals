@@ -12,20 +12,25 @@ const Homepage = () => {
     const [message, setMessage] = useState("");
     const [errorObject, setErrorObject] = useState({})
     const [recipesArray, setRecipes] = useState([]);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
+        setLoading(true);
         fetchDaySelectionFromAPI();
     }, [])
 
 
     const fetchDaySelectionFromAPI = async () => {
+        setLoading(true);
         const response = await APIManager.fetchDaySelectionRecipes();
         setRecipes(response);
-        setMessage("Some Recommandation :")
+        setMessage("Some Recommandation :");
+        setLoading(false);
+
     }
 
     const searchRecipe = async (e) => {
 
+        setLoading(true);
 
         if (e.target.value.length > 0) {
             const response = await APIManager.fetchRecipe(e.target.value.toLowerCase().split(" ").join("-"));
@@ -39,9 +44,10 @@ const Homepage = () => {
             }
         }
         else {
-                setErrorObject({haveError: false});
+            setErrorObject({ haveError: false });
             fetchDaySelectionFromAPI();
         }
+        setLoading(false);
     }
 
 
@@ -87,6 +93,7 @@ const Homepage = () => {
 
 
     const fetchRecipeWithFilterFromAPI = async () => {
+        setLoading(true);
         const response = await APIManager.fetchRecipeWithFilter(categoryFilter, areaFilter)
         if (response === undefined) {
             setErrorObject({ haveError: false });
@@ -102,6 +109,7 @@ const Homepage = () => {
                 setMessage("Found Recipes :")
             }
         }
+        setLoading(false);
     }
 
     if (errorObject.haveError) {
@@ -114,7 +122,7 @@ const Homepage = () => {
         </>)
 
     }
-    else {
+    else if (!loading) {
         return (
             <>
                 <Header canSearch={true} _dataToSearch={recipesArray} _searchFunction={searchRecipe} />
@@ -125,6 +133,13 @@ const Homepage = () => {
                         return <RecipeCard key={recipe.title} title={recipe.title} imgURL={recipe.image} area={recipe.area} category={recipe.category} />
                     })}
                 </section>
+            </>)
+    } else {
+        return (
+            <>
+                <Header canSearch={true} _dataToSearch={recipesArray} _searchFunction={searchRecipe} />
+                <h2 className="recipe_container--message loading ">Loading...</h2>
+                <Menu handleCategoryTagClick={handleCategoryTagClick} handleAreaTagClick={handleAreaTagClick} />
             </>)
     }
 
