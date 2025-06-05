@@ -51,6 +51,10 @@ input,select {
     align-items: center;
     justify-content: center;
 
+    flex-grow: 1;
+    flex-grow: 1;
+    flex-basis: 0;
+     width: 100%;
     @media screen and (width >= 768px) {
         flex-flow: row wrap;
         align-items: center;  
